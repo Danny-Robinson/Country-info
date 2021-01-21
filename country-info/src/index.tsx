@@ -6,7 +6,6 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 import "./index.css";
 import App from "./App";
-import { store } from "./redux/store";
 
 const client = new ApolloClient({
   uri: "https://countries-274616.ew.r.appspot.com",
@@ -16,9 +15,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
