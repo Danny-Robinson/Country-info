@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { gql } from "apollo-boost";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,3 +30,19 @@ export interface CountryDatum {
 export interface CountryResponse {
   Country: ReadonlyArray<CountryDatum>;
 }
+
+export const CORE_COUNTRY_QUERY = gql`
+  {
+    Country {
+      name
+      population
+      capital
+      flag {
+        svgFile
+      }
+      officialLanguages {
+        name
+      }
+    }
+  }
+`;

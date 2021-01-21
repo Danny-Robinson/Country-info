@@ -1,26 +1,13 @@
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
 import React from "react";
 import { GridList, GridListTile, ListSubheader } from "@material-ui/core";
 
-import { CountryResponse, useStyles } from "./components/constants";
+import {
+  CORE_COUNTRY_QUERY,
+  CountryResponse,
+  useStyles,
+} from "./components/constants";
 import CountryTileBar from "./components/country-tile-bar";
-
-const CORE_COUNTRY_QUERY = gql`
-  {
-    Country {
-      name
-      population
-      capital
-      flag {
-        svgFile
-      }
-      officialLanguages {
-        name
-      }
-    }
-  }
-`;
 
 const App = () => {
   const { loading, error, data } = useQuery<CountryResponse>(
