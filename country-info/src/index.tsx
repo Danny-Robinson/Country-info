@@ -13,8 +13,6 @@ export const cache: InMemoryCache = new InMemoryCache({
         Country: {
           keyArgs: false,
           merge(existing = [], incoming) {
-            console.log(existing);
-            console.log(incoming);
             return [...existing, ...incoming];
           },
         },
