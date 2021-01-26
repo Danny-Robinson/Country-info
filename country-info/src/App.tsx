@@ -67,6 +67,7 @@ const App = () => {
       {/* {data?.Country && (
         <Button onClick={() => setIsBottom(true)}>Load More</Button> //alternate option (would make function a const)
       )} */}
+      {/* Could also add a fetch more loading state here with more time */}
     </div>
   );
 };
