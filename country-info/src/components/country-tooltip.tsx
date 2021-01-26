@@ -23,7 +23,7 @@ const CountryTooltip = ({ languages, children }: CountryTooltipProps) => (
         <Typography color="inherit">Languages</Typography>
         {languages.map((language, index) => {
           if (index > 4) return null;
-          return <div>{language.name}</div>;
+          return <div key={index}>{language.name}</div>;
         })}
       </>
     }

@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GridList, GridListTile, ListSubheader } from "@material-ui/core";
+import { useMediaQuery } from "react-responsive";
 
 import {
   CORE_COUNTRY_QUERY,
@@ -10,16 +11,48 @@ import {
 import CountryTileBar from "./components/country-tile-bar";
 
 const App = () => {
-  const { loading, error, data } = useQuery<CountryResponse>(
-    CORE_COUNTRY_QUERY
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` }); // could add more breakpoints if required
+  const [isBottom, setIsBottom] = useState(false);
+
+  const { loading, error, data, fetchMore } = useQuery<CountryResponse>(
+    CORE_COUNTRY_QUERY,
+    { variables: { offset: 0 } }
   );
+
   const classes = useStyles();
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document?.scrollingElement?.scrollHeight
+    ) {
+      setIsBottom(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", loadMore);
+    return () => {
+      window.removeEventListener("scroll", loadMore);
+    };
+  }, [data]);
+
+  useEffect(() => {
+    if (isBottom && data) {
+      setIsBottom(false);
+      fetchMore({ variables: { offset: data.Country.length ?? 0 } });
+    }
+  }, [data, isBottom, fetchMore]);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList} cols={3}>
+      <GridList
+        cellHeight={180}
+        className={classes.gridList}
+        cols={isMobile ? 1 : 3}
+      >
         <GridListTile key="Subheader" cols={3}>
           <ListSubheader component="div">Country Info</ListSubheader>
         </GridListTile>
@@ -31,6 +64,9 @@ const App = () => {
           </GridListTile>
         ))}
       </GridList>
+      {/* {data?.Country && (
+        <Button onClick={() => setIsBottom(true)}>Load More</Button> //alternate option (would make function a const)
+      )} */}
     </div>
   );
 };

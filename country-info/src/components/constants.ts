@@ -32,8 +32,8 @@ export interface CountryResponse {
 }
 
 export const CORE_COUNTRY_QUERY = gql`
-  {
-    Country {
+  query($offset: Int) {
+    Country(first: 15, offset: $offset) {
       name
       population
       capital
